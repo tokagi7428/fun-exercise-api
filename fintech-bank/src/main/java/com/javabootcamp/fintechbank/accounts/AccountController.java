@@ -49,5 +49,51 @@ public class AccountController {
     ) {
         return accountService.depositAccount(accountNo, depositRequest);
     }
+    // Challenge 1
+    @Operation(summary = "creates a new account")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "creates a new account",
+             content = @Content(mediaType = "application/json",
+             schema = @Schema(implementation = AccountRequest.class)))
+    })
+    @RequestMapping(value = "/accounts", method = RequestMethod.POST)
+    public AccountRequest createNewAccount(@RequestBody AccountRequest restore){
+        return accountService.createAccount(restore);
+    }
+    // Challenge 2
+    @Operation(summary = "creates a new transaction")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "creates a new transaction",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = AccountRequest.class)))
+    })
+    @RequestMapping(value = "/accounts/{accountNo}/withdraw", method = RequestMethod.POST)
+    public AccountRequest createAccountNoWithDraw(@PathVariable("accountNo") int accountNo , @RequestBody AccountRequest restore){
+        return accountService.createAccountNoWithDraw(accountNo, restore);
+    }
+
+    // Challenge 3
+    @Operation(summary = "create a new withdraw transaction")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "create a new withdraw transaction",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = AccountResponse.class)))
+    })
+    @RequestMapping(value = "/accounts/{accountNo}/transfer/{targetAccountNo}", method = RequestMethod.POST)
+    public AccountResponse createTransferToAccount(@RequestBody AccountRequest restore, @PathVariable("accountNo") int accountNo, @PathVariable("targetAccountNo") int targetAccountNo){
+        return accountService.createTransferToAccount(restore, accountNo, targetAccountNo);
+    }
+
+    // Challenge 3
+    @Operation(summary = "get my account")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "get my account",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = AccountResponse.class)))
+    })
+    @RequestMapping(value = "/accounts/{accountNo}", method = RequestMethod.GET)
+    public AccountResponse getAccount(@PathVariable("accountNo") int accountNo){
+        return accountService.getAccount(accountNo);
+    }
 }
 
